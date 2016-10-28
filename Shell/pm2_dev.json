@@ -1,0 +1,31 @@
+{
+    "apps":[
+        {
+            "name":"server-list-staging",
+            "script":"Server/bin/www",
+            "instances":1,
+            "exec_mode":"fork",
+            "log_date_formate":"YYYY-MM-DD HH:mm Z",
+            "combine_logs":true,
+            "end":{
+                "PORT":4000,
+                "GAME_CONFIG_SUFFIX":"dev",
+                "GAME_ENV":"staging"
+            }
+        },
+        {
+            "name":"server-staging-4001",
+            "script":"Server/bin/www.js",
+            "instances":1,
+            "exec_mode":"fork",
+            "log_date_formate":"YYYY-MM-DD HH:mm Z",
+            "combine_logs":true,
+            "end":{
+                "PORT":4001,
+                "PORT_SERVER_LIST":4000,
+                "GAME_CONFIG_SUFFIX":"dev",
+                "GAME_ENV":"staging"
+            }
+        }
+    ]
+}
