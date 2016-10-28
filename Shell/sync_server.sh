@@ -50,3 +50,30 @@ for ((i = 0 ; i < targetListNum; i++))
         port="${port_list[i]}"
     fi
 }
+
+server_port_list=($[$port+1])
+echo "server port: ${port}"
+echo "server list port: ${server_port_list[@]}"
+
+cd ${path_git}
+
+sed -i '' "s/send_mail_on_error\": false/send_mail_on_error\": true/g" ${path_config}
+
+#ssh -tt -p port username@host "sudo chown -R ${build_user} ${path_deploy};"
+rsync -avcrzl --delete-after ./pm2_dev.json ./game_dev.json ./Server ./ServerList ./xlsx2json --exclude 'Server/logs' --exclude 'ServerList/logs' -e 'ssh -p port' username@host:${path_deploy}/
+
+git checkount ${path_config}
+
+#start server and serverList
+cmd='cd ${path_deploy}'
+
+for server_port in ${server_port_list[@]}
+do
+    cmd="${cmd}; pm2 startOrRestart pm2_dev.json --only server-${build_target}-${server_port}"
+done
+
+cmd="${cmd};pm2 startOrRestart pm2_dev.json --only server-list-${build_target}"
+ssh -tt -p port username@host "${cmd}"
+
+
+
