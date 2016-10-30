@@ -19,7 +19,7 @@ def prod(x, y):
 
 print reduce(prod, [2, 4, 5, 7, 12])
 
-#reduce 接受第三个参数作为计算的初始值 
+#reduce 接受第三个参数作为计算的初始值
 
 #filter()函数是 Python 内置的另一个有用的高阶函数，filter()函数接收一个函数 f 和一个list，这个函数 f 的作用是对每个元素进行判断，返回 True或 False，filter()根据判断结果自动过滤掉不符合条件的元素，返回由符合条件元素组成的新list
 #filter 过滤
@@ -31,3 +31,12 @@ def is_sqr(x):
 
 print filter(is_sqr, range(1, 101))
 
+#请编写一个函数calc_prod(lst)，它接收一个list，返回一个函数，返回函数可以计算参数的乘积。
+def calc_prod(lst):
+def lazy_prod():
+def f(x, y):
+return x * y
+    return reduce(f, lst, 1)
+    return lazy_prod
+f = calc_prod([1, 2, 3, 4])
+print f()
