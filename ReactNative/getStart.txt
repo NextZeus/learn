@@ -1,0 +1,8 @@
+npm install -g react-native-cli 安装cli工具
+
+创建项目
+react-native init proname
+
+cd proname
+react-native run-ios
+
