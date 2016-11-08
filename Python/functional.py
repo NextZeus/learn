@@ -40,3 +40,19 @@ return x * y
     return lazy_prod
 f = calc_prod([1, 2, 3, 4])
 print f()
+
+#闭包
+
+def count():
+    fs = []
+    for i in range(1,4):
+        def f(i):
+            def g():
+                return i * i
+            return g
+
+        r = f(1)
+        fs.append(r)
+
+f1,f2,f3 = count()
+print f1(), f2(), f3()
