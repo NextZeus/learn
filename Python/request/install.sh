@@ -24,3 +24,6 @@ sudo pip install gunicorn httpbin
 
 #启动httpbin
 sudo gunicorn httpbin:app
+
+＃激活服务
+source .env/bin/activate
