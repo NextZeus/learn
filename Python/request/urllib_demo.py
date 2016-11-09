@@ -4,6 +4,7 @@ import urllib
 import urllib2
 
 URL_IP = 'http://127.0.0.1:8000/ip'
+URL_GET = 'http://127.0.0.1:8000/get'
 
 def use_simple_urllib2():
     response = urllib2.urlopen(URL_IP)
@@ -16,7 +17,7 @@ def use_params_urllib2():
     params = urllib.urlencode({'param1':'hello','param2':'world'})
     print 'Request params:'
     print params
-    response = urllib2.urlopen('?'.join([URL_IP,'%s']) % params)
+    response = urllib2.urlopen('?'.join([URL_GET,'%s']) % params)
     print '>>>> Response Headers:'
     print response.info()
     print '>>>> Response code:'

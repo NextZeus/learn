@@ -14,7 +14,7 @@ virtualenv .env
 pip freeze
 
 #install request
-sudo pip install request
+sudo pip install requests #error : use sudo easy_install requests success
 
 #python 模式下 help(rqeuest) 查看文档
 
