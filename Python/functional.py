@@ -56,3 +56,43 @@ def count():
 
 f1,f2,f3 = count()
 print f1(), f2(), f3()
+
+
+
+#python中完善decorator
+
+#@decorator可以动态实现函数功能的增加 但是经过@decorator改造后的函数，和原函数相比，除了多一点功能外，
+#其他地方也有不同
+"""
+在没有decorator的情况下，打印函数名
+"""
+def f1(x):
+    pass
+print f1.__name__
+#f1
+
+import time, functools
+def performance(unit):
+    def pref_decorator(f):
+        @functools.wraps(f)
+        def wrapper(*args,**kw):
+            t1 = time.time()
+            r = f(*args,**kw)
+            t2 = time.time()
+            t = (t2 - t1)*1000 if unit=='ms' else (t2 - t1)
+            print 'call %s() in %f %s' %(f.__name__,t,unit)
+            return r
+        reutrn wrapper
+    return pref_decorator
+
+@performance('ms')
+def factorial(n):
+    return reduce(lambda x,y:x*y, range(1,n+1))
+
+print factorial.__name__
+
+#偏函数
+import functools
+
+sorted_ignore_case = functools.partial(sorted, cmp=lambda s1,s2:cmp(s1.upper(),s2.upper()))
+print sorted_ignore_case(['bob','about','zoo'])
