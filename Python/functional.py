@@ -96,3 +96,55 @@ import functools
 
 sorted_ignore_case = functools.partial(sorted, cmp=lambda s1,s2:cmp(s1.upper(),s2.upper()))
 print sorted_ignore_case(['bob','about','zoo'])
+
+
+
+#import 引入模块
+try:
+    import json
+except ImportError:
+    import simplejson as json
+print json.dumps({'python':2.7})
+
+# __future__ 引入新版本功能
+from __future__ import unicode_literals
+s='am i an unicode'
+print isinstance(s,unicode)
+
+#安装第三方模块
+#pip[推荐] ; easy_install
+
+class Person(object):
+        pass
+
+    p1 = Person()
+    p1.name = 'Bart'
+
+    p2 = Person()
+    p2.name = 'Adam'
+
+    p3 = Person()
+    p3.name = 'Lisa'
+
+    L1 = [p1, p2, p3]
+    L2 = sorted(L1,lambda p1,p2:cmp(p1.name,p2.name))
+
+    print L2[0].name
+    print L2[1].name
+    print L2[2].name
+
+
+
+class Person(object):
+    #接受除了name,gender,birth外的任意参数
+    def __init__(self,name,gender,birth,**kw):
+        self.name = name
+        self.gender = gender
+        self.birth = birth
+        for k,v in kw.iteritems():
+            setattr(self,k,v)
+
+        xiaoming = Person('Xiao Ming', 'Male', '1990-1-1', job='Student')
+
+        print xiaoming.name
+        print xiaoming.job
