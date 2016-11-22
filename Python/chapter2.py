@@ -1,3 +1,4 @@
+# encoding utf-8
 # print "%s is number %d" %("Python", 1)
 
 # user = raw_input("enter your name:")
@@ -29,9 +30,9 @@ alist[0] = 10
 
 atuple = ('robot',1,2,3)
 print atuple[:3]
-# 元组不可修改
+# tuple can not modify value
 
-# 字典
+# dict
 adict = {'host':'127.0.0.1'}
 adict['port'] = 8888
 
