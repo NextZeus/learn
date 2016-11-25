@@ -53,5 +53,62 @@ while(True):
     break
 
 for item in [1,2,3]:
-    print item, #自动换行
+    print item, #多加个逗号 自动换行
+
+sqdevents = [x**2 for x in range(8) if not x%2]
+
+for i in sqdevents:
+    print i
+
+
+# 文件喝内建函数 open file
+
+handle = open('file_name','r') # r读取 w写 a增加
+
+for eachLine in handle:
+    print eachLine
+
+handle.close()
+
+try:
+    filename = raw_input('file name:')
+    fobj = open(filename, 'r')
+    for eachLine in fobj:
+        print eachLine
+    fobj.close()
+except IOError, e:
+    print 'file open error:', e
+
+# function
+def addMe2Me(x) :
+
+    print 'apply + operation to argument'
+
+    return x * 2
+
+addMe2Me(5)
+
+
+class Player(object):
+    version = 0.1
+
+    def __init__(self,name='xiaodong'):
+        self.name = name
+
+        print 'create class instance for ', name
+    def showname(self):
+        print 'my name is ', self.name
+    def showver(self):
+        print self.version
+    def addMe2Me(self,x):
+        return x * 2
+
+player = Player()
+
+player.showname()
+player.showver()
+
+
+
+
 
