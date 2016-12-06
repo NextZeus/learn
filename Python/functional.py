@@ -31,3 +31,12 @@ def is_sqr(x):
 
 print filter(is_sqr, range(1, 101))
 
+#自定义排序函数
+def reversed_cmp(x,y):
+    if x > y:
+	return -1
+    if x < y:
+	return 1
+    return 0
+
+sorted([36,5,12,9,21],reversed_cmp)
