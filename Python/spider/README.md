@@ -23,3 +23,7 @@
 * 分析html, 使用 BeautifulSoup
 * 读写mysql 使用 pymysql
 
+### 数据库设计
+![](http://mmbiz.qpic.cn/mmbiz_png/vtJpaLUJ689NF4Ra0LXiaaGnGuABpXibvtXgW1gza4jiaiazRsZQrQyWglymtZHtfXFCe148mG9DA6Cj27OWtQfrtQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1)
+> Tbl_Huajiao_User用于存储主播的个人数据
+> Tbl_Huajiao_Live用于存储主播的历史直播数据
