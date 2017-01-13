@@ -61,3 +61,76 @@ def getUserData(userId):
         print(str(userId) + ":html parse error in getUserData")
         return 0
 
+def getUserLives(userId):
+    print('getUserLives: userId=' + str(userId))
+
+    try:
+        url = "http://webh.huajiao.com/User/getUserFeeds?fmt=json&uid=" + str(userId)
+        html = urlopen(url).read().decode('utf-8')
+        jsondata = json.loads(html)
+
+        if jsondata['error'] != 0:
+            print(str(userId) + "error occured in getUserFeeds for: " + jsondata['msg'])
+            return 0
+
+        return jsondata['data']['feeds']
+    except Exception as e:
+        print('getUserData Exception:' + e)
+        return 0
+
+def getTimestamp():
+    return (time.mktime(datetime.datetime.now().timetuple()))
+
+def replaceUserLive(data):
+    try:
+        kvs = dict()
+        kvs['FLiveId'] = int(data['relateid'])
+        kvs['FUserId'] = int(data['FUserId'])
+        kvs['FWatches'] = int(data['watches'])
+        kvs['FPraises'] = int(data['praises'])
+        kvs['FReposts'] = int(data['reposts'])
+        kvs['FReplies'] = int(data['replies'])
+        kvs['FPublishTimestamp'] = int(data['publishtimestamp'])
+        kvs['FTitle'] = data['title']
+        kvs['FImage'] = data['image']
+        kvs['FLocation'] = data['location']
+        kvs['FScrapedTime'] = getNowTime()
+        Live().insert(kvs, 1)
+    except pymysql.err.InternalError as e:
+        print(e)
+
+def spiderUserDatas():
+    for liveId in getLiveIdsFromRecommendPage():
+        userid = getUserId(liveId)
+        userdata = getUserData(userid)
+        try:
+            if userdata:
+                User().insert(userdata, 1)
+        except pymysql.err.InternalError as e:
+            print(e)
+            print(userdata)
+    return 1
+
+def spiderUserLives():
+    userIds = User().select("FUserId").limit(100).fetch_all()
+    for userId in userIds:
+        liveDatas = getUserLives(userId[0])
+        try:
+            for liveData in liveDatas:
+                liveData['feed']['FUserId'] = userId[0]
+                replaceUserLive(liveData['feed'])
+        except Exception as e:
+            print(e)
+
+    return 1
+
+class BaseModel(Model):
+    conn = Mysql(host='127.0.0.1', unix_socket='/tmp/mysql.sock', user='root', password='123456', db='wanghong', charset='utf8')
+
+class User(BaseModel):
+    tbl = "Tbl_Huajiao_User"
+
+
+class Live(BaseModel):
+    tbl = "Tbl_Huajiao_Live"
+
