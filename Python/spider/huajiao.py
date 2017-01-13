@@ -26,7 +26,7 @@ def filterLiveIds(url):
     return liveIds
 
 def getLiveIdsFromRecommendPage():
-    liveds = set()
+    liveids = set()
     liveids = filterLiveIds("http://www.huajiao.com/category/1000") | filterLiveIds("http://www.huajiao.com/category/1000?pageno=2")
     return liveids
 
