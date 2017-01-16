@@ -167,3 +167,12 @@ class Person(object):
 
         print xiaoming.name
         print xiaoming.job
+
+# unpacking arguments
+def add(one,tow,three):
+    answer = one + tow + three
+    return answer
+
+arr = [1,2,3]
+
+add(*arr)
