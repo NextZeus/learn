@@ -28,35 +28,35 @@
 
 
 d = {
-	a:1
+	'a':1
 }
-if 'a' in d
-	print d['a']
+if 'a' in d:
+	print (d['a'])
 
-print d.get('a')	
+print (d.get('a'))
 
 #遍历dict
 
-for key in d
-	print key
+for key in d:
+	print (key)
 
 #set
 #创建 set 的方式是调用 set() 并传入一个 list，list的元素将作为set的元素：
 
-s = set(['A','B','C'])
+s = set(['A', 'B', 'C'])
 length = len(s)
 
 'A' in s #True
 
 #遍历set 
-for name in s
-	print name
+for name in s:
+	print (name)
 
 #更新set
 s.add('D')
 s.remove('D')
 
-L = ['A','E']
+L = ['A', 'E']
 
 
 for name in L:
@@ -64,7 +64,7 @@ for name in L:
 		s.remove(name)
 	else :
 		s.add(name)
-print s
+print (s)
 
 
 L = []
@@ -72,7 +72,7 @@ x = 1
 while x <= 100:
     L.append(x * x)
     x = x + 1
-print sum(L)
+print (sum(L))
 
 
 #函数
@@ -87,11 +87,11 @@ def my_abs(x):
 
 L = range(1,101)
 
-print L[0:10]#从第1个数元素开始取，到第11元素结束
+print(L[0:10])#从第1个数元素开始取，到第11元素结束
 
-print L[2::3]#从第三元素开始取，每隔2个取一个元素
+print(L[2::3])#从第三元素开始取，每隔2个取一个元素
 
-print L[4:50:5]#从第五个取，每隔4个取一个，‘开始元素’：‘最后元素’：‘取元素间隔’
+print(L[4:50:5])#从第五个取，每隔4个取一个，‘开始元素’：‘最后元素’：‘取元素间隔’
 
 L[-2:]
 
@@ -107,7 +107,7 @@ def move(x,y,step,angle):
 	return nx,ny
 
 x,y = move(100,100,60, math.pi / 6)
-print x,y
+print (x,y)
 
 
 #enumerate(L) : [(0, 'Adam'), (1, 'Lisa'), (2, 'Bart'), (3, 'Paul')]
@@ -115,12 +115,12 @@ print x,y
 L = ['Adam', 'Lisa', 'Bart', 'Paul']
 r = range(1,5)
 for index, name in zip(r,L):
-    print index, '-', name
+    print ((index, '-', name))
 
 
 #迭代dict的value
 d = { 'Adam': 95, 'Lisa': 85, 'Bart': 59 }
-print d.values()
+print (d.values())
 # [85, 95, 59]
 
 
@@ -134,7 +134,7 @@ sum = 0.0
 for v in d.itervalues():
     sum += v
     
-print sum / len(d.values())
+print (sum / len(d.values()))
 
 #1. values() 方法实际上把一个 dict 转换成了包含 value 的list
 #2. 但是 itervalues() 方法不会转换，它会在迭代过程中依次从 dict 中取出 value，所以 itervalues() 方法比 values() 方法节省了生成 list 所需的内存
@@ -144,8 +144,13 @@ d = { 'Adam': 95, 'Lisa': 85, 'Bart': 59, 'Paul': 74 }
 sum = 0.0
 for k, v in d.iteritems():
     sum = sum + v
-    print k, ':', v
-print 'average', ':', sum / len(d)
+    print (k, ':', v)
+print ('average', ':', sum / len(d))
 
 
+def drop_first_last(grades):
+	first, *middle, last = grades
+	avg = sum(middle) / len(middle)
+	print(avg)
 
+drop_first_last([1,2,3,4,5,6,7,8,9])

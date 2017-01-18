@@ -89,7 +89,7 @@ def get_huaban_caregories():
 
 get_huaban_caregories()
 
-# HuaBan api
+# HuaBan api return json
 # Home--> http://api.huaban.com/fm/wallpaper/pins?limit=&max=&tag
 
 # caregories－url --> http://api.huaban.com/fm/wallpaper/tags
@@ -97,10 +97,6 @@ get_huaban_caregories()
 # http://api.huaban.com/fm/wallpaper/pins?tag=%E7%BE%8E%E5%A5%B3&limit=&max=  tag=encodeURIComponent(tag_name)
 
 # http://hbimg.b0.upaiyun.com/2359313a2efa0c79efa84d0d0445058778a43c1c26d83-3A7tLW
-
-
-
-
 
 
 
