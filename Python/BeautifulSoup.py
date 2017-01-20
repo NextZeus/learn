@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import re
 import requests
 
 url = ""
@@ -144,3 +145,45 @@ for string in soup.stripped_strings:
     # u'...'
 
 #.next_sibling 和 .previous_sibling兄弟节点
+
+# .next_element .previous_element
+
+# 搜索文档树
+# find() find_all()
+
+html_doc = """
+<html><head><title>The Dormouse's story</title></head>
+
+<p class="title"><b>The Dormouse's story</b></p>
+
+<p class="story">Once upon a time there were three little sisters; and their names were
+<a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+<a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+<a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+and they lived at the bottom of a well.</p>
+
+<p class="story">...</p>
+"""
+
+soup = BeautifulSoup(html_doc)
+
+#字符串
+soup.find_all('b')
+
+#正则表达式
+soup.find_all(re.compile('^b'))
+
+#列表 返回所有符合标签的内容
+soup.find_all(['a', 'b'])
+
+# True 返回所有的标签
+soup.find_all(True)
+
+# 过滤器方法
+
+def has_class_but_no_id(tag):
+    return tag.has_attr('class') and not tag.has_attr('id')
+
+soup.find_all(has_class_but_no_id())
+
+
