@@ -187,3 +187,33 @@ def has_class_but_no_id(tag):
 soup.find_all(has_class_but_no_id())
 
 
+#find_all
+soup.find_all('title')
+
+soup.find_all('p', 'title') #class='title'
+
+# keyword 参数
+soup.find_all(id="link2")
+soup.find_all(text=re.compile('sister'))
+# 字典参数
+soup.find_all(attrs={"data-foo": "value"})
+
+# 按css 搜索
+soup.find_all('a', class_='sister')
+soup.find_all(class_=re.compile('itl'))
+
+def has_six_characters(css_class):
+    return css_class is not None and len(css_class) == 6
+
+soup.find_all(class_=has_six_characters)
+
+# 多值属性
+# 完全匹配 class 的值时,如果CSS类名的顺序与实际不符,将搜索不到结果
+css_soup.find_all("p", class_="body strikeout")
+
+soup.find_all("a", attrs={"class": "sister"})
+
+# text 参数
+# 通过 text 参数可以搜搜文档中的字符串内容
+
+# limit 参数
