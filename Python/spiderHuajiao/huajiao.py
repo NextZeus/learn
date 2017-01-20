@@ -15,7 +15,6 @@ def get_huajiao_video_categories():
     hd_nav = home_soup.find_all('a', {'href': re.compile('category')})
     print('hd_nav: ', hd_nav)
     categories = dict()
-    print(len(hd_nav))
     for tag in hd_nav:
         des = tag.string
         if des == '更多>':
@@ -27,5 +26,5 @@ def get_huajiao_video_categories():
         categories[category] = des
     print('categories:', categories)
 
-# get_huajiao_video_categories()
+get_huajiao_video_categories()
 
