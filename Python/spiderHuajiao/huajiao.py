@@ -81,7 +81,7 @@ def get_category_list(catgory_id):
                     else:
                         print('continue!')
             data.append(person)
-            # print('person ', person)
+            print('person ', person)
 
     # print('length: ', len(data))
     return data
