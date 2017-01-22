@@ -52,76 +52,93 @@ def get_huajiao_video_categories():
 ### 第五步 深入分类直播列表页面 
 熬了个通宵，一晚上没睡着，撸到现在 哈哈 不过感觉撸的很爽 比平时写的要有效很多倍 可能是精力比较集中吧 接着写教程
 顺便总结下bs4的一些实际经验
-继续上代码
+继续写代码
+
 
 ```
+
+# 根据直播ID 获取主播用户ID
+def get_anchorid_by_liveid(liveid):
+    url = "http://www.huajiao.com/l/" + str(liveid)
+    soup = get_soup_by_url(url)
+    anchor_id = soup.find_all('a', href=re.compile('user/'))[0].get('href')[6:]
+    return anchor_id
+
+# 获取主播详细信息
+def get_anchor_info_by_userid(userid):
+    person = dict()
+    person['userid'] = userid
+
+    url = "http://www.huajiao.com/user/" + str(userid)
+    soup = get_soup_by_url(url)
+
+    # userinfo div
+    userInfo = soup.find('div', {'id': 'userInfo'})
+
+    username = userInfo.find('h3').get_text(strip=True)
+    person['username'] = username
+    # 头像
+    avatar = userInfo.find('img').get('src')
+    person['avatar'] = avatar
+
+    # 简介
+    about = userInfo.find('p', 'about')
+    person['about'] = about.get_text(strip=True)
+
+    # 等级
+    level = userInfo.find('span', 'level')
+    person['level'] = level.get_text(strip=True)
+
+    # other
+    clearfix = userInfo.find('ul', 'clearfix')
+    for child in clearfix.children:
+        if not isinstance(child, NavigableString):
+            p = child.find('p').get_text(strip=True)
+            h = child.find('h4').get_text(strip=True)
+            if h == '关注':
+                person['follow'] = p
+            elif h == '粉丝':
+                person['fans'] = p
+            elif h == '赞':
+                person['support'] = p
+            elif h == '经验值':
+                person['exp'] = p
+
+    print('person: ', person)
+    return person
+
 # 根据 分类id 和 页码 获取对应请求的url
 def get_category_url_by_id_and_pageno(catgory_id, pageno):
     catgory_url = "http://www.huajiao.com/category/" + str(catgory_id) + "pageno=" + str(pageno)
     return catgory_url
-    
-
 
 # 获取直播分类列表数据
 def get_category_list(catgory_id):
     catgory_url = "http://www.huajiao.com/category/" + str(catgory_id)
     soup = get_soup_by_url(catgory_url)
     # 获取最大分页数
+    page_tag = soup.find_all('li', "paginate_button last")
+    if len(page_tag) <= 0:
+        return []
+
     last_page_tag = soup.find_all('li', "paginate_button last")[0]
     last_page = int(last_page_tag.get('tabindex'))
-    print('last_page: ', last_page)
 
     data = list()
 
     for pageno in range(1, last_page):
-        print('page: ', pageno)
         catgory_url = get_category_url_by_id_and_pageno(catgory_id, pageno)
         soup = get_soup_by_url(catgory_url)
         main_list = soup.find_all('a', href=re.compile('/l/'))
-        # 这里获取的是一个嵌套的tag
-        a超链接下是 2个div 一个存储主播头像地址 一个存储主播简要信息
+
         for link in main_list:
-            person = dict()
-            userId = link.get('href')[3:]
-            person['userId'] = userId
-            children = link.children
-
-            for child in children:
-                # 总共4个child , 有两个是NavigableString 下面要排除掉无用child
-                # child是最外层两个div 
-                
-                if not isinstance(child, NavigableString):
-                    attr = child.attrs['class'][0]
-                    if attr == 'pic':
-                        #头像 child.image 获取image tag
-                        avatar = child.img.get('src')
-                        person['avatar'] = avatar
-                        # print('avatar: ', avatar)
-                    elif attr == 'text':
-                        # 第一个div 主播昵称 
-                        # child.div 获取第一个div子节点 ; 第二个不能这么获取
-                        nickName = child.div.get_text()
-                        person['nickName'] = nickName
-                        # 获取span里的正在观看人数
-                        # 我换了一种方式获取 数据是在span标签里放着的 所以我就直接从span里拿
-                        watches = child.find_all('span', 'num')[0].get_text()
-                        person['watches'] = watches
-                        # print('nickName: ', nickName)
-                        # print('watches: ', watches)
-                    else:
-                        print('continue!')
+            liveId = link.get('href')[3:]
+            userid = get_anchorid_by_liveid(liveId)
+            person = get_anchor_info_by_userid(userid)
             data.append(person)
-            print('person ', person)
 
-    print('length: ', len(data))
-
-    return data    
+    return data
 
 ```
-
-![](http://img.hb.aicdn.com/db803d05ce7b754d726eadbe1acb0b5afaa1dc21dba4-DcRXsZ_fw658)
-
-
-
 
 
