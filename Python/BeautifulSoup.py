@@ -217,3 +217,6 @@ soup.find_all("a", attrs={"class": "sister"})
 # 通过 text 参数可以搜搜文档中的字符串内容
 
 # limit 参数
+
+#去除文档前后空白
+soup.get_text("|", strip=True)
