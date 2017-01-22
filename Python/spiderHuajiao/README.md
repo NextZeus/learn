@@ -54,9 +54,7 @@ def get_huajiao_video_categories():
 顺便总结下bs4的一些实际经验
 继续写代码
 
-
 ```
-
 # 根据直播ID 获取主播用户ID
 def get_anchorid_by_liveid(liveid):
     url = "http://www.huajiao.com/l/" + str(liveid)
@@ -121,6 +119,7 @@ def get_category_list(catgory_id):
     if len(page_tag) <= 0:
         return []
 
+    # 获取最大页码
     last_page_tag = soup.find_all('li', "paginate_button last")[0]
     last_page = int(last_page_tag.get('tabindex'))
 
