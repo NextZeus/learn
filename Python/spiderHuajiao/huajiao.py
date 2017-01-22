@@ -13,17 +13,16 @@ def get_soup_by_url(url):
 def get_huajiao_video_categories():
     huajiao_main_url = "http://www.huajiao.com/"
     soup = get_soup_by_url(huajiao_main_url)
-    hd_nav = soup.find_all('a', {'href': re.compile('category')})
+    hd_nav = soup.find_all('a', {'href': re.compile('category/')})
+
     categories = dict()
     for tag in hd_nav:
         des = tag.string
         if des == '更多>':
             continue
-        # print('des: ', des)
-        # print('name:', tag.string)
         category = tag.get('href')[10:]
-        # print('category: ', category)
         categories[category] = des
+    print('categories: ', categories)
     return categories
 
 # 根据 分类id 和 页码 获取对应请求的url
@@ -107,10 +106,9 @@ def get_category_list(catgory_id):
             person = get_anchor_info_by_userid(userid)
             data.append(person)
 
-    # print('length: ', len(data))
     return data
 
-# categories = get_huajiao_video_categories()
+categories = get_huajiao_video_categories()
 # print('花椒主播分类: ', categories)
 # for category in categories.keys():
 #     data = get_category_list(category)
