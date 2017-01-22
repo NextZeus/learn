@@ -106,22 +106,32 @@ def get_anchorid_by_liveid(liveid):
 def get_anchor_info_by_userid(userid):
     person = dict()
 
-    print('userid: ', userid)
+    person['userid'] = userid
+
     url = "http://www.huajiao.com/user/" + str(userid)
     soup = get_soup_by_url(url)
-    userInfo = soup.find_all('div', {'id': 'userInfo'})[0]
 
-    about = userInfo.find_all('p', 'about')[0]
+    #userinfo div
+    userInfo = soup.find('div', {'id': 'userInfo'})
+
+    username = userInfo.find('h3').get_text(strip=True)
+    person['username'] = username
+    #头像
+    avatar = userInfo.find('img').get('src')
+    person['avatar'] = avatar
+
+    about = userInfo.find('p', 'about')
     person['about'] = about.get_text(strip=True)
-    level = userInfo.find_all('span', 'level')[0]
+
+    level = userInfo.find('span', 'level')
     person['level'] = level.get_text(strip=True)
 
-    clearfix = userInfo.find_all('ul', 'clearfix')[0]
+    # other
+    clearfix = userInfo.find('ul', 'clearfix')
     for child in clearfix.children:
         if not isinstance(child, NavigableString):
-            print('child: ', child)
-            p = child.find('p').get_text()
-            h = child.find('h4').get_text()
+            p = child.find('p').get_text(strip=True)
+            h = child.find('h4').get_text(strip=True)
             if h == '关注':
                 person['follow'] = p
             elif h == '粉丝':
