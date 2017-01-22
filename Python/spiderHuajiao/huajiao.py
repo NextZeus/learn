@@ -108,7 +108,7 @@ def get_category_list(catgory_id):
 
     return data
 
-categories = get_huajiao_video_categories()
+# categories = get_huajiao_video_categories()
 # print('花椒主播分类: ', categories)
 # for category in categories.keys():
 #     data = get_category_list(category)
