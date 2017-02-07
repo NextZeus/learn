@@ -140,4 +140,11 @@ def get_category_list(catgory_id):
 
 ```
 
+#### bs用法总结
+
+> find_all 根据id , class 属性获取到具体的tag
+> 获取到的tag 可以继续试用find, find_all 获取到更具体的tag
+> 具体的最底层的tag的时候， get_text() tag.get('href'), tag.get('xxx') 可以获取到某个tag的属性值
+> re 正则匹配 href=re.compile('user') href中包含user字符串的超链接
+
 
